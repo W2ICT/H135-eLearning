@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>H135 E-Learning | Airbus Helicopters Type Training</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     LOGIN PAGE
+══════════════════════════════════════════ -->
+<div id="loginPage">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="login-icon">🚁</div>
+      <h1>H135 Training</h1>
+      <p>EC135 P3H / T3H Pilot Type Course</p>
+    </div>
+    <form id="loginForm">
+      <label class="login-label" for="pwInput">Access Code</label>
+      <div class="pw-wrap">
+        <input class="pw-input" type="password" id="pwInput" placeholder="Enter access code" autocomplete="current-password" required>
+        <button type="button" class="eye-btn" id="eyeBtn" title="Show/Hide">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
+      </div>
+      <div class="login-err" id="loginErr">Incorrect access code. Please try again.</div>
+      <button type="submit" class="login-btn">Enter Training System →</button>
+    </form>
+    <p class="login-foot">Airbus Helicopters Deutschland GmbH · For Instruction Only</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     MAIN APP
+══════════════════════════════════════════ -->
+<div id="app">
+
+  <!-- HEADER -->
+  <header class="app-header">
+    <button class="h-hamburger" id="hamburger" title="Menu">☰</button>
+    <div class="h-logo" id="appLogo">
+      <div class="h-logo-icon">🚁</div>
+      <span class="h-logo-text">H135 Training</span>
+    </div>
+    <div class="h-spacer"></div>
+    <button class="h-nav-btn" id="bankNavBtn" title="Question Bank">📚 Bank</button>
+    <button class="h-nav-btn" id="examNavBtn" title="100-Question Exam">📋 Exam</button>
+    <div class="h-prog" id="headerProg">0/20 Completed</div>
+    <button class="h-logout" id="logoutBtn">Logout</button>
+  </header>
+
+  <!-- BODY -->
+  <div class="app-body">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sb-head" id="sbHead">Course Modules</div>
+      <div id="sidebarList"></div>
+      <div class="sb-nav-section" id="sbNavSection">
+        <div class="sb-nav-item" id="sbBankBtn">
+          <div class="sb-nav-icon">📚</div>
+          <span>Question Bank</span>
+        </div>
+        <div class="sb-nav-item" id="sbExamBtn">
+          <div class="sb-nav-icon">📋</div>
+          <span>Exam (100Q)</span>
+        </div>
+      </div>
+      <button class="sb-collapse-btn" id="sbCollapseBtn" title="Collapse sidebar">‹</button>
+    </aside>
+    <div class="sb-overlay" id="sbOverlay"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+      <!-- ── DASHBOARD VIEW ── -->
+      <div id="dashboardView" class="view">
+        <div class="dash">
+          <div class="dash-hero">
+            <h2>EC135 P3H / T3H — Pilot Type Training</h2>
+            <p>Master all 20 modules covering every major helicopter system from the lifting system and power plant to Helionix® avionics and the AFCS autopilot.</p>
+            <div class="overall-prog">
+              <div class="prog-bar-wrap">
+                <div class="prog-lbl">
+                  <span>Overall Progress</span>
+                  <span id="overallPct">0%</span>
+                </div>
+                <div class="prog-bar"><div class="prog-fill" id="overallBar" style="width:0%"></div></div>
+              </div>
+              <div class="chips">
+                <div class="chip chip-g" id="chipDone">✓ 0 Completed</div>
+                <div class="chip chip-b" id="chipTodo">◯ 20 Remaining</div>
+                <div class="chip chip-o" id="chipScore">📝 0 Quizzes Done</div>
+              </div>
+            </div>
+          </div>
+          <div class="sec-title">📚 Course Modules</div>
+          <div class="ch-grid" id="chapterGrid"></div>
+        </div>
+      </div>
+
+      <!-- ── CHAPTER VIEW ── -->
+      <div id="chapterView" class="view">
+        <div class="ch-view">
+          <!-- Breadcrumb -->
+          <div class="breadcrumb">
+            <span onclick="renderDashboard();showView('dashboard')">🏠 Home</span>
+            <span style="color:var(--txt3)">›</span>
+            <span id="chBreadNum"></span>
+            <span style="color:var(--txt3)">›</span>
+            <span id="chBreadTitle" style="color:var(--txt2)"></span>
+          </div>
+
+          <!-- Hero -->
+          <div class="ch-hero">
+            <div class="ch-hero-bg-num" id="chHeroBgNum"></div>
+            <div class="ch-hero-tag" id="chHeroTag">
+              <span id="chHeroIcon"></span>
+              <span id="chHeroTagText"></span>
+            </div>
+            <h2 id="chHeroTitle"></h2>
+            <p class="ch-desc" id="chHeroDesc"></p>
+            <div class="obj-wrap">
+              <h4>Learning Objectives</h4>
+              <div class="obj-chips" id="chObjList"></div>
+            </div>
+          </div>
+
+          <!-- Tabs -->
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="overview" onclick="switchTab('overview')">📖 Content</button>
+            <button class="tab-btn" data-tab="keydata" onclick="switchTab('keydata')">📊 Key Data</button>
+            <button class="tab-btn" data-tab="quiz" onclick="switchTab('quiz')">📝 Quiz</button>
+          </div>
+
+          <!-- Tab: Content -->
+          <div id="tab_overview" class="tab-pane active">
+            <div id="chSections"></div>
+          </div>
+
+          <!-- Tab: Key Data -->
+          <div id="tab_keydata" class="tab-pane">
+            <div id="chKeyData"></div>
+          </div>
+
+          <!-- Tab: Quiz -->
+          <div id="tab_quiz" class="tab-pane">
+            <div class="cs" style="text-align:center;padding:32px">
+              <div style="font-size:48px;margin-bottom:16px">📝</div>
+              <h3 style="justify-content:center;margin-bottom:10px">Chapter Quiz</h3>
+              <p style="margin-bottom:20px;font-size:14px">Test your knowledge with 5 questions on this chapter's content.</p>
+              <button class="nav-btn pri" style="display:inline-flex;margin:0 auto" onclick="startQuiz()">Start Quiz →</button>
+            </div>
+          </div>
+
+          <!-- Navigation -->
+          <div class="ch-nav">
+            <button class="nav-btn" id="prevChBtn">← Previous</button>
+            <button class="complete-btn" id="completeBtn">✓ Mark Complete</button>
+            <button class="nav-btn" id="nextChBtn">Next →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── QUIZ VIEW ── -->
+      <div id="quizView" class="view">
+        <div class="quiz-view">
+          <div class="qz-head">
+            <h2 id="qzTitle">Quiz</h2>
+            <p id="qzSubtitle"></p>
+            <div class="qz-prog"><div class="qz-prog-fill" id="qzProgFill" style="width:0%"></div></div>
+          </div>
+
+          <div class="q-card" id="qzQCard">
+            <div class="q-num" id="qzQNum">Question 1 of 5</div>
+            <div class="q-text" id="qzQText"></div>
+            <div class="opts" id="qzOpts"></div>
+            <div class="exp" id="qzExp"></div>
+          </div>
+
+          <div class="qz-ctrl" id="qzCtrl">
+            <button class="qz-btn qz-sec" onclick="openChapter(state.quizChapter);showView('chapter')">← Back to Chapter</button>
+            <button class="qz-btn qz-pri" id="qzNextBtn" style="display:none">Next →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── QUESTION BANK VIEW ── -->
+      <div id="bankView" class="view">
+        <div class="bank-wrap">
+          <div class="bank-hero">
+            <h2>📚 Question Bank — คลังข้อสอบ</h2>
+            <p>ข้อสอบระบบละ 100 ข้อ แบ่งเป็น 2 ระดับ: ปานกลาง (ศิษย์การบิน) และ ยาก (ครูการบิน)</p>
+          </div>
+          <div class="bank-filters">
+            <select class="bank-sel" id="bankChSel">
+              <option value="all">All Chapters (20)</option>
+            </select>
+            <div class="diff-toggle">
+              <button class="diff-btn med active" id="diffMed" onclick="setBankDiff('m')">🟡 ปานกลาง</button>
+              <button class="diff-btn hard" id="diffHard" onclick="setBankDiff('h')">🔴 ยาก</button>
+            </div>
+            <span class="bank-count" id="bankCount"></span>
+          </div>
+          <div class="q-bank-list" id="qBankList"></div>
+        </div>
+      </div>
+
+      <!-- ── EXAM VIEW ── -->
+      <div id="examView" class="view">
+        <div class="exam-wrap">
+          <div class="exam-hero">
+            <h2>📋 แบบทดสอบ 100 ข้อ</h2>
+            <p>สุ่ม 100 ข้อจากคลังข้อสอบทั้งหมด · สามารถ Export PDF ได้ทั้งข้อสอบและเฉลย</p>
+          </div>
+          <div id="examContent"></div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script src="content.js"></script>
+<script src="questions.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
+<script src="app.js"></script>
+</body>
+</html>
