@@ -49,6 +49,8 @@
       <span class="h-logo-text">H135 Training</span>
     </div>
     <div class="h-spacer"></div>
+    <button class="h-nav-btn" id="bankNavBtn" title="Question Bank">📚 Bank</button>
+    <button class="h-nav-btn" id="examNavBtn" title="100-Question Exam">📋 Exam</button>
     <div class="h-prog" id="headerProg">0/20 Completed</div>
     <button class="h-logout" id="logoutBtn">Logout</button>
   </header>
@@ -58,8 +60,19 @@
 
     <!-- SIDEBAR -->
     <aside class="sidebar" id="sidebar">
-      <div class="sb-head">Course Modules</div>
+      <div class="sb-head" id="sbHead">Course Modules</div>
       <div id="sidebarList"></div>
+      <div class="sb-nav-section" id="sbNavSection">
+        <div class="sb-nav-item" id="sbBankBtn">
+          <div class="sb-nav-icon">📚</div>
+          <span>Question Bank</span>
+        </div>
+        <div class="sb-nav-item" id="sbExamBtn">
+          <div class="sb-nav-icon">📋</div>
+          <span>Exam (100Q)</span>
+        </div>
+      </div>
+      <button class="sb-collapse-btn" id="sbCollapseBtn" title="Collapse sidebar">‹</button>
     </aside>
     <div class="sb-overlay" id="sbOverlay"></div>
 
@@ -178,11 +191,44 @@
         </div>
       </div>
 
+      <!-- ── QUESTION BANK VIEW ── -->
+      <div id="bankView" class="view">
+        <div class="bank-wrap">
+          <div class="bank-hero">
+            <h2>📚 Question Bank — คลังข้อสอบ</h2>
+            <p>ข้อสอบระบบละ 100 ข้อ แบ่งเป็น 2 ระดับ: ปานกลาง (ศิษย์การบิน) และ ยาก (ครูการบิน)</p>
+          </div>
+          <div class="bank-filters">
+            <select class="bank-sel" id="bankChSel">
+              <option value="all">All Chapters (20)</option>
+            </select>
+            <div class="diff-toggle">
+              <button class="diff-btn med active" id="diffMed" onclick="setBankDiff('m')">🟡 ปานกลาง</button>
+              <button class="diff-btn hard" id="diffHard" onclick="setBankDiff('h')">🔴 ยาก</button>
+            </div>
+            <span class="bank-count" id="bankCount"></span>
+          </div>
+          <div class="q-bank-list" id="qBankList"></div>
+        </div>
+      </div>
+
+      <!-- ── EXAM VIEW ── -->
+      <div id="examView" class="view">
+        <div class="exam-wrap">
+          <div class="exam-hero">
+            <h2>📋 แบบทดสอบ 100 ข้อ</h2>
+            <p>สุ่ม 100 ข้อจากคลังข้อสอบทั้งหมด · สามารถ Export PDF ได้ทั้งข้อสอบและเฉลย</p>
+          </div>
+          <div id="examContent"></div>
+        </div>
+      </div>
+
     </main>
   </div>
 </div>
 
 <script src="content.js"></script>
+<script src="questions.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
