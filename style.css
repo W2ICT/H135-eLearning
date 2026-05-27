@@ -284,8 +284,9 @@ html,body{height:100%;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 
 /* ── SIDEBAR COLLAPSE (desktop) ── */
 .sb-collapse-btn{display:flex;align-items:center;justify-content:center;
-  width:100%;padding:10px;background:none;border:none;border-top:1px solid var(--border);
-  color:var(--txt3);cursor:pointer;font-size:18px;transition:all .2s;margin-top:auto}
+  width:100%;padding:10px;background:var(--bg1);border:none;border-top:1px solid var(--border);
+  color:var(--txt3);cursor:pointer;font-size:18px;transition:all .2s;
+  position:sticky;bottom:0;z-index:2;flex-shrink:0}
 .sb-collapse-btn:hover{color:var(--acc);background:rgba(59,130,246,.06)}
 
 @media(min-width:1024px){

@@ -337,12 +337,16 @@ function toggleSidebarCollapse() {
 }
 
 // ── QUESTION BANK ──
+let _bankSelInit = false;
 function initBankChapterSelect() {
   const sel = document.getElementById('bankChSel');
-  sel.innerHTML = '<option value="all">All Chapters (20)</option>' +
-    CHAPTERS.map(ch => `<option value="${ch.id}">Ch ${ch.num} — ${ch.title}</option>`).join('');
+  if (!_bankSelInit) {
+    sel.innerHTML = '<option value="all">All Chapters (20)</option>' +
+      CHAPTERS.map(ch => `<option value="${ch.id}">Ch ${ch.num} — ${ch.title}</option>`).join('');
+    sel.onchange = () => { state.bankChapter = sel.value; renderBank(); };
+    _bankSelInit = true;
+  }
   sel.value = state.bankChapter;
-  sel.addEventListener('change', () => { state.bankChapter = sel.value; renderBank(); });
 }
 
 function setBankDiff(d) {
@@ -361,6 +365,7 @@ function renderBank() {
   let questions = []; // { chId, idx, q }
 
   const addCh = (ch) => {
+    if (!QBANK[ch.id]) return;
     const qs = QBANK[ch.id][diff] || [];
     qs.forEach((q, i) => questions.push({ chId: ch.id, chNum: ch.num, chTitle: ch.title, idx: i, q }));
   };
@@ -436,6 +441,7 @@ function startExam() {
   // collect all questions, shuffle, take 100
   let pool = [];
   CHAPTERS.forEach(ch => {
+    if (!QBANK[ch.id]) return;
     const m = (QBANK[ch.id].m || []).map(q => ({...q, _ch: ch}));
     const h = (QBANK[ch.id].h || []).map(q => ({...q, _ch: ch}));
     pool = pool.concat(m, h);
